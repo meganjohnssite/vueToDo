@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>To Do List - Vue.JS</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <style>
+        
+        body{
+            background-color: #06bcc1;
+        }
+        h1{
+            color: #12263a;
+            padding-top: 10px;
+        }
+        .btn-info{
+            background-color: #12263a;
+        }
+        
+        .fa-heart{
+            color: #12263a;
+        }
+        .fa-clock-o{
+            color: #12263a;
+        }
+        img{
+            padding: 10px;
+        }
+        li {
+            padding: 5px 0;
+        }
+
+        .task-done {
+            color: #00FA9A;
+            font-size: large;
+        }
+
+        .task-todo {
+            color: #FF0000;
+            font-size: large;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    
+
+    <div id="app">
+        <div class="row">
+            <div class="col-sm-6">
+        <h1>{{ myName }} To-Do App</h1>
+        <input v-model="myName" placeholder="Your Name">
+        <input v-model="newTask" placeholder="New Task..." v-on:keyup.enter="saveTask">
+        <ol>
+            <li v-for="task in tasks">
+                <input type="checkbox" v-model="task.done">
+                <button type="button" v-on:click="deleteTask(task)"> <i class="fa fa-trash"></i></button>
+                <span v-bind:class="task.done ? 'task-done' : 'task-todo'">
+                    {{ task.subject }}
+                </span>
+                <i v-bind:class="task.done ? 'fa fa-heart' : 'fa fa-clock-o'"></i>
+            </li>
+        </ol>
+        <button type = "button" v-on:click="clearAll()" class="btn btn-info">Clear All Tasks</button>
+    </div>
+    <div class="col-sm-6">
+        <img src="quote.jpg" class="animate__animated animate__fadeInDown"alt="inspirational quote">
+    </div> 
+</div>       
+    </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                myName: null,
+                newTask: null,
+                tasks: [
+                    {
+                        done: false,
+                        subject: 'Brush Teeth'
+                    },
+                    {
+                        done: true,
+                        subject: 'Comb Hair'
+                    },
+                    {
+                        done: false,
+                        subject: 'Get Dressed',
+                    }
+                ],
+                saveTask: function() {
+                    if(this.newTask == null){
+                        alert('Enter a Task!');
+                        return;
+                    }
+                    this.tasks.push({
+                        done: false,
+                        subject: this.newTask
+                    });
+                    this.newTask = null;
+                },
+                deleteTask: function(task) {
+                    this.tasks = this.tasks.filter(function(e) {
+                        return e.subject != task.subject;
+                    });
+                },
+                clearAll: function(){
+                    this.tasks = [];
+                }
+            }
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
